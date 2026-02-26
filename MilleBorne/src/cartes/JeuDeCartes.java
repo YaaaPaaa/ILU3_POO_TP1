@@ -25,24 +25,37 @@ public class JeuDeCartes {
 		typesDeCartes[18] = new Configuration(new Botte(Type.ACCIDENT), 1);
 	}
 	
-	public String affichageJeuCartes() {
-		for (int i = 0; i < typesDeCartes.length; i++) {
-			System.out.println(typesDeCartes[i].getNbExemplaires() + "" + typesDeCartes[i].getCarte());
+	public String affichageJeuDeCartes() {
+		StringBuilder affichage = new StringBuilder();
+		for (Configuration config : typesDeCartes) {
+			affichage.append(config.getNbExemplaires()).append(" ").append(config.getCarte()).append("\n");
 		}
-		return "";
+		return affichage.toString();
 	}
+
 	
 	public Carte[] donnerCartes() {
-		Carte[] jeuDeCarte = null;
-		//TODO
-		return jeuDeCarte;
+		int total = 0;
+		for (Configuration config : typesDeCartes) {
+			total += config.getNbExemplaires();
+		}
+		Carte[] jeuComplet = new Carte[total];
+		
+		int index = 0;
+		for (Configuration config : typesDeCartes) {
+			for (int i = 0; i < config.getNbExemplaires(); i++) {
+				jeuComplet[index++] = config.getCarte();
+			}
+		}
+		return jeuComplet;
 	}
+
 	
 	public Configuration[] getTypesDeCartes() {
 		return typesDeCartes;
 	}
 
-	public void setTypesDeCartesConfigurations(Configuration[] typesDeCartes) {
+	public void setTypesDeCartes(Configuration[] typesDeCartes) {
 		this.typesDeCartes = typesDeCartes;
 	}
 

@@ -2,7 +2,6 @@ package cartes;
 
 public abstract class Bataille extends Probleme {
 	protected Bataille(Type type) {
-		// TODO Auto-generated constructor stub
+		super(type);
 	}
-
 }

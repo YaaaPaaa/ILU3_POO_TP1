@@ -3,8 +3,8 @@ package cartes;
 public abstract class Probleme extends Carte {
 	private Type type;
 	
-	protected Probleme() {
-		// TODO Auto-generated constructor stub
+	protected Probleme(Type type) {
+		this.type = type;
 	}
 	
 	public Type getType() {
