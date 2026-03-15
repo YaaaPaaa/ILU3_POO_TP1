@@ -58,6 +58,11 @@ public class JeuDeCartes {
 	public void setTypesDeCartes(Configuration[] typesDeCartes) {
 		this.typesDeCartes = typesDeCartes;
 	}
+	
+	public boolean checkCount() {
+		//TODO
+		return true;
+	}
 
 	private class Configuration extends Carte{
 		private int nbExemplaires;

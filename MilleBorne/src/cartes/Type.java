@@ -23,5 +23,4 @@ public enum Type {
 	public String getAttaque() {
 		return attaque;
 	}
-
 }

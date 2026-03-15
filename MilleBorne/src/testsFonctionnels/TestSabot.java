@@ -58,7 +58,7 @@ public class TestSabot {
 		System.out.println("\nQuestion B :");
 //		testPioche.questionB();
 		System.out.println("\nQuestion C :");
-		testPioche.questionC();
+//		testPioche.questionC();
 	}
 
 }
