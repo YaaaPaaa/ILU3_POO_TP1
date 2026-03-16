@@ -6,7 +6,7 @@ import java.util.List;
 
 import cartes.Carte;
 import cartes.JeuDeCartes;
-//import utils.GestionCartes;
+import utils.GestionCartes;
 
 public class TestGestionCartes {
 	public static void main(String args[]) {
