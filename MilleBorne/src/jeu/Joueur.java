@@ -1,8 +1,6 @@
 package jeu;
 
 import cartes.Carte;
-import cartes.MainJoueur;
-import cartes.ZoneDeJeu;
 
 public class Joueur {
 	private String nom;
