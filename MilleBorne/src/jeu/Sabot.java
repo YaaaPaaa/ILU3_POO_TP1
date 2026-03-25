@@ -99,8 +99,6 @@ public class Sabot implements Iterable<Carte> {
             if (nbOperation != nbOperationReference) {
                 throw new ConcurrentModificationException();
             }
-        }
-        
-        
+        } 
     }
 }

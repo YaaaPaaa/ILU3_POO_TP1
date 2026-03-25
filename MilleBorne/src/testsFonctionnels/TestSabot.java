@@ -54,11 +54,11 @@ public class TestSabot {
 	public static void main(String[] args) {
 		TestSabot testPioche = new TestSabot();
 		System.out.println("Question A :");
-//		testPioche.questionA();
+		testPioche.questionA();
 		System.out.println("\nQuestion B :");
 //		testPioche.questionB();
 		System.out.println("\nQuestion C :");
-		testPioche.questionC();
+//		testPioche.questionC();
 	}
 
 }
