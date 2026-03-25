@@ -1,6 +1,8 @@
-package cartes;
+package jeu;
 
-import jeu.Sabot;
+import cartes.Carte;
+import cartes.MainJoueur;
+import cartes.ZoneDeJeu;
 
 public class Joueur {
 	private String nom;

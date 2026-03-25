@@ -1,7 +1,9 @@
-package cartes;
+package jeu;
 
 import java.util.Iterator;
 import java.util.List;
+
+import cartes.Carte;
 
 public class MainJoueur implements Iterable<Carte>{
 	private List<Carte> mainJoueur;
@@ -36,3 +38,4 @@ public class MainJoueur implements Iterable<Carte>{
 		return mainJoueur.iterator();
 	}
 }
+
