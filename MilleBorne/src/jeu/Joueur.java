@@ -1,6 +1,9 @@
 package jeu;
 
+import cartes.Bataille;
+import cartes.Borne;
 import cartes.Carte;
+import cartes.Limite;
 
 public class Joueur {
 	private String nom;
@@ -44,5 +47,9 @@ public class Joueur {
 	
 	public int donnerKmParcourus() {
 		return zoneDeJeu.donnerKmParcourus();
+	}
+	
+	public void deposer(Carte c) {
+		zoneDeJeu.deposer(c);
 	}
 }
