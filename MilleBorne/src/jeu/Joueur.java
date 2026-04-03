@@ -41,4 +41,8 @@ public class Joueur {
 
 		return carte;
 	}
+	
+	public int donnerKmParcourus() {
+		return zoneDeJeu.donnerKmParcourus();
+	}
 }
