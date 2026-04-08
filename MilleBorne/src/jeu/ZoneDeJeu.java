@@ -2,6 +2,7 @@ package jeu;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import cartes.Limite;
@@ -10,6 +11,7 @@ import cartes.Type;
 import cartes.Attaque;
 import cartes.Bataille;
 import cartes.Borne;
+import cartes.Botte;
 import cartes.Carte;
 import cartes.DebutLimite;
 import cartes.FinLimite;
@@ -18,16 +20,18 @@ public class ZoneDeJeu {
 	private List<Limite> pileLimite;
 	private List<Bataille> pileBataille;
 	private Collection<Borne> collecBorne;
+	private HashSet<Botte> bottes;
 	
 	public ZoneDeJeu() {
 		this.pileLimite = new ArrayList<>();
 		this.pileBataille = new ArrayList<>();
 		this.collecBorne = new ArrayList<>();
+		this.bottes = new HashSet<>();
 	}
 	
 	public int donnerLimitationVitesse() {
 		int limite = 50;
-		if(pileLimite.isEmpty() || pileLimite.getLast() instanceof FinLimite){
+		if(pileLimite.isEmpty() || pileLimite.getLast() instanceof FinLimite || estPrioritaire()){
 			limite = 200;
 		}
 		return limite;
@@ -45,24 +49,47 @@ public class ZoneDeJeu {
 		if(c instanceof Borne borne) collecBorne.add(borne);
 		if (c instanceof Limite limite) pileLimite.add(limite);
 		if (c instanceof Bataille bataille) pileBataille.add(bataille);
+		if (c instanceof Botte botte) bottes.add(botte);
+	}
+	
+	/**
+	 * Test si on a la Botte qui contre l'Attaque au sommet de la pileBataille (sauf pour la botte "Prioritaire)
+	 */
+	public boolean isBotteContreAttaque() {
+		Botte citerne = new Botte(Type.ESSENCE);
+		Botte increvable = new Botte(Type.CREVAISON);
+		Botte asDuVolant = new Botte(Type.ACCIDENT);
+		
+		return 	pileBataille.getLast() instanceof Attaque && 
+				(
+				(bottes.contains(citerne) && pileBataille.getLast().getType().equals(Type.ESSENCE))||
+				(bottes.contains(increvable) && pileBataille.getLast().getType().equals(Type.CREVAISON))||
+				(bottes.contains(asDuVolant) && pileBataille.getLast().getType().equals(Type.ACCIDENT))
+				);
 	}
 	
 	public Boolean peutAvancer() {
 		Bataille feuVert = new Parade(Type.FEU);
-		return !pileBataille.isEmpty() && pileBataille.getLast().equals(feuVert);
+		return (!pileBataille.isEmpty() && estPrioritaire()) ||
+				pileBataille.getLast().equals(feuVert) ||
+				(pileBataille.getLast() instanceof Parade && estPrioritaire()) ||
+				(pileBataille.getLast() instanceof Attaque && pileBataille.getLast().getType().equals(Type.FEU) 
+															&& estPrioritaire()) ||
+				isBotteContreAttaque() && estPrioritaire();
 	}
 	
 	private Boolean estDepotFeuVertAutorise() {
 		Bataille feuRouge = new Attaque(Type.FEU);
 		Bataille feuVert = new Parade(Type.FEU);
+		Botte prio = new Botte(Type.FEU);
 		
-		//On test séparement si la pile est vide pour pouvoir récupérer son sommet si elle ne l'est pas.
-		if (pileBataille.isEmpty()) {
-	        return true;
-	    }
+		if (bottes.contains(prio)) {
+			return false;
+		}
 		
-		Bataille sommetPile = pileBataille.getLast();
-		return sommetPile.equals(feuRouge) || (sommetPile instanceof Parade && !sommetPile.equals(feuVert));
+		return pileBataille.isEmpty() || pileBataille.getLast().equals(feuRouge) || 
+				(pileBataille.getLast() instanceof Parade && !pileBataille.getLast().equals(feuVert)) ||
+				isBotteContreAttaque();
 	}
 	
 	private Boolean estDepotBorneAutorise(Borne borne) {
@@ -99,5 +126,17 @@ public class ZoneDeJeu {
 	    if (carte instanceof Borne borne) return estDepotBorneAutorise(borne);
 	    if (carte instanceof Limite limite) return estDepotLimiteAutorise(limite);
 	    return false;
-	}	
+	}
+	
+	public boolean estPrioritaire() {
+		Botte prio = new Botte(Type.FEU);
+		return bottes.contains(prio);
+	}
+	
+	
+	
+	
+	
+	
+	
 }
