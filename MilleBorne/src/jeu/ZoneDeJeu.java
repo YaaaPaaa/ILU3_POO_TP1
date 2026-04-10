@@ -55,12 +55,12 @@ public class ZoneDeJeu {
 	/**
 	 * Test si on a la Botte qui contre l'Attaque au sommet de la pileBataille (sauf pour la botte "Prioritaire)
 	 */
-	public boolean isBotteContreAttaque() {
+	public boolean estBotteContreAttaque() {
 		Botte citerne = new Botte(Type.ESSENCE);
 		Botte increvable = new Botte(Type.CREVAISON);
 		Botte asDuVolant = new Botte(Type.ACCIDENT);
 		
-		return 	pileBataille.getLast() instanceof Attaque && 
+		return 	!pileBataille.isEmpty() && pileBataille.getLast() instanceof Attaque && 
 				(
 				(bottes.contains(citerne) && pileBataille.getLast().getType().equals(Type.ESSENCE))||
 				(bottes.contains(increvable) && pileBataille.getLast().getType().equals(Type.CREVAISON))||
@@ -69,27 +69,27 @@ public class ZoneDeJeu {
 	}
 	
 	public Boolean peutAvancer() {
-		Bataille feuVert = new Parade(Type.FEU);
-		return (!pileBataille.isEmpty() && estPrioritaire()) ||
-				pileBataille.getLast().equals(feuVert) ||
+		if (pileBataille.isEmpty()) {
+	        return estPrioritaire();
+	    }
+		
+		return	(pileBataille.getLast().equals(new Parade(Type.FEU)) ||
 				(pileBataille.getLast() instanceof Parade && estPrioritaire()) ||
-				(pileBataille.getLast() instanceof Attaque && pileBataille.getLast().getType().equals(Type.FEU) 
-															&& estPrioritaire()) ||
-				isBotteContreAttaque() && estPrioritaire();
+				(pileBataille.getLast() instanceof Attaque 
+						&& pileBataille.getLast().getType().equals(Type.FEU) && estPrioritaire()) ||
+				(estBotteContreAttaque() && estPrioritaire()));
 	}
 	
 	private Boolean estDepotFeuVertAutorise() {
-		Bataille feuRouge = new Attaque(Type.FEU);
-		Bataille feuVert = new Parade(Type.FEU);
 		Botte prio = new Botte(Type.FEU);
 		
 		if (bottes.contains(prio)) {
 			return false;
 		}
 		
-		return pileBataille.isEmpty() || pileBataille.getLast().equals(feuRouge) || 
-				(pileBataille.getLast() instanceof Parade && !pileBataille.getLast().equals(feuVert)) ||
-				isBotteContreAttaque();
+		return pileBataille.isEmpty() || pileBataille.getLast().equals(new Attaque(Type.FEU)) || 
+				(pileBataille.getLast() instanceof Parade && !pileBataille.getLast().equals(new Parade(Type.FEU))) ||
+				estBotteContreAttaque();
 	}
 	
 	private Boolean estDepotBorneAutorise(Borne borne) {
@@ -101,16 +101,21 @@ public class ZoneDeJeu {
 	}
 	
 	private Boolean estDepotLimiteAutorise(Limite limite) {
-		if(limite instanceof DebutLimite) return pileLimite.isEmpty() 
-				|| pileLimite.getLast() instanceof FinLimite;
+		if(estPrioritaire()) return false;
+		
+		if(limite instanceof DebutLimite) 
+			return pileLimite.isEmpty() || pileLimite.getLast() instanceof FinLimite;
+		
 		return pileLimite.getLast() instanceof DebutLimite;
 	}
 	
 	private Boolean estDepotBatailleAutorise(Bataille bataille) {
+		for (Botte botte : bottes) {
+			if(botte.getType().equals(bataille.getType())) return false;
+		}
+		
 		if(bataille instanceof Attaque) {
-			if (!pileBataille.isEmpty()) {
-				return !(pileBataille.getLast() instanceof Attaque); //L'adversaire est bloqué
-		    }
+			return peutAvancer();
 		} else {
 			Bataille feuVert = new Parade(Type.FEU);
 			if (bataille.equals(feuVert)){
@@ -118,24 +123,18 @@ public class ZoneDeJeu {
 			}
 			return !pileBataille.isEmpty() && pileBataille.getLast().getType().equals(bataille.getType());
 		}
-		return false;
 	}
 	
 	public Boolean estDepotAutorise(Carte carte) {
 	    if (carte instanceof Bataille bataille) return estDepotBatailleAutorise(bataille);
 	    if (carte instanceof Borne borne) return estDepotBorneAutorise(borne);
 	    if (carte instanceof Limite limite) return estDepotLimiteAutorise(limite);
-	    return false;
+	    return carte instanceof Botte;
 	}
 	
 	public boolean estPrioritaire() {
-		Botte prio = new Botte(Type.FEU);
-		return bottes.contains(prio);
+		return bottes.contains(new Botte(Type.FEU));
 	}
-	
-	
-	
-	
 	
 	
 	

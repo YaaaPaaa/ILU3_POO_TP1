@@ -8,4 +8,9 @@ public abstract class Carte {
 	    }
 	    return false;
 	}
+	
+	@Override
+    public int hashCode() {
+        return toString().hashCode();
+    }
 }

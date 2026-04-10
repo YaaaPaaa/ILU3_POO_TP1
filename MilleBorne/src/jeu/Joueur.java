@@ -1,9 +1,6 @@
 package jeu;
 
-import cartes.Bataille;
-import cartes.Borne;
 import cartes.Carte;
-import cartes.Limite;
 
 public class Joueur {
 	private String nom;
