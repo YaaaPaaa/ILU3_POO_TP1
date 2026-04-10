@@ -1,5 +1,8 @@
 package jeu;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import cartes.Carte;
 
 public class Joueur {
@@ -26,6 +29,11 @@ public class Joueur {
 		return false;
 	}
 	
+	@Override
+	public int hashCode() {
+		return toString().hashCode();
+	}
+	
 	public ZoneDeJeu getZoneDeJeu() {
 		return zoneDeJeu;
 	}
@@ -49,4 +57,28 @@ public class Joueur {
 	public void deposer(Carte c) {
 		zoneDeJeu.deposer(c);
 	}
+	
+	public Set<Coup> coupsPossible(Set<Joueur> participants){
+		Set<Coup> ensembleCoupsValide = new HashSet<>();
+		
+		for (Joueur cible : participants) {
+			for (Carte carte : mainJoueur) {
+				Coup coup = new Coup(this, carte, cible);
+	            if (coup.estValide()) ensembleCoupsValide.add(coup);
+			}
+		}
+		return ensembleCoupsValide;
+	}
+	
+	public Set<Coup> coupsDefausse() {
+	    Set<Coup> defausses = new HashSet<>();
+
+	    for (Carte carte : mainJoueur) {
+	        Coup coup = new Coup(this, carte, null);
+	        defausses.add(coup);
+	    }
+
+	    return defausses;
+	}
+
 }
