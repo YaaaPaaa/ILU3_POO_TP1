@@ -135,6 +135,14 @@ public class ZoneDeJeu {
 	public boolean estPrioritaire() {
 		return bottes.contains(new Botte(Type.FEU));
 	}
+
+	public HashSet<Botte> getBottes() {
+		return bottes;
+	}
+
+	public List<Limite> getLimite() {
+		return pileLimite;
+	}
 	
 	
 	

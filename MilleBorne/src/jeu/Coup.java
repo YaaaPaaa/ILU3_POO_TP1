@@ -40,6 +40,12 @@ public class Coup {
 	    return false;
 	}
 
-	
-
+	@Override
+	public String toString() {
+	    if (joueurCible != null) {
+	        return "depose la carte " + carteJouee + " dans la zone de jeu de " + joueurCible;
+	    } else {
+	        return "defausse la carte " + carteJouee;
+	    }
+	}
 }

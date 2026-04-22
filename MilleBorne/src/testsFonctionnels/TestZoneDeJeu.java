@@ -13,7 +13,7 @@ import jeu.ZoneDeJeu;
 public class TestZoneDeJeu {
 	public static void main(String[] args) {
 		// TP3 PARTIE 2
-		ZoneDeJeu zoneDeJeu = new ZoneDeJeu();
+//		ZoneDeJeu zoneDeJeu = new ZoneDeJeu();
 //		System.out.println("Deposer carte 25 km");
 //		zoneDeJeu.deposer(new Borne(25));
 //		System.out.println("Deposer carte 50 km");
@@ -165,7 +165,7 @@ public class TestZoneDeJeu {
 //			d�p�t ok ? true
 //			peut avancer ? true
 //			Deposer carte borne - 100
-//			d�p�t ok ? false
+//			d�p�t ok ? true ///SHHHHHHHH
 //			peut avancer ? true
 //			Deposer carte borne - 25
 //			d�p�t ok ? true
@@ -178,6 +178,7 @@ public class TestZoneDeJeu {
 //			peut avancer ? true
 
 //		// TP4 Partie 1
+		ZoneDeJeu zoneDeJeu = new ZoneDeJeu();
 		boolean depotOK = false;
 		// Feu rouge
 		System.out.println("Deposer carte Feu rouge");
@@ -247,7 +248,7 @@ public class TestZoneDeJeu {
 			zoneDeJeu.deposer(new DebutLimite());
 		}
 		System.out.println("peut avancer ? " + zoneDeJeu.peutAvancer());
-		
+//		
 		//RESULTAT ATTENDU POUR LE TP4 Partie 1
 //		Deposer carte Feu rouge
 //		d�p�t ok ? false

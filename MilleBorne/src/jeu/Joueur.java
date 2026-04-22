@@ -1,9 +1,17 @@
 package jeu;
 
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
+import cartes.Bataille;
+import cartes.Botte;
 import cartes.Carte;
+import cartes.DebutLimite;
+import cartes.FinLimite;
+import cartes.Limite;
 
 public class Joueur {
 	private String nom;
@@ -80,5 +88,46 @@ public class Joueur {
 
 	    return defausses;
 	}
+	
+	public void retirerDeLaMain(Carte carte){
+		mainJoueur.jouer(carte);
+	}
 
+	public Coup choisirCoup(Set<Joueur> participants) {
+		Set<Coup> coupPossible = coupsPossible(participants);
+		if(coupPossible.isEmpty()) {
+			coupPossible = coupsDefausse();
+		}
+		
+		int result = (int) (Math.random() * (participants.size() - 0) + 0);
+		
+		Coup coup = null;
+		for (Iterator<Coup> it = coupPossible.iterator(); it.hasNext() && result != 0;) {
+			coup = it.next();
+			result--;
+		}
+
+		return coup;
+	}
+	
+	public String afficherEtatJoueur() {
+		StringBuilder texte = new StringBuilder();
+		 HashSet<Botte> ensBotte = zoneDeJeu.getBottes();
+		 
+		 texte.append("L'ensemble des bottes : ");
+		 for (Botte botte : ensBotte) {
+			 texte.append("	-");
+			 texte.append(botte.toString());
+			 texte.append("\n");
+		 }
+		 texte.append("\n\n");
+		 
+		 List<Limite> pileLimite = zoneDeJeu.getLimite();
+		 texte.append(pileLimite.getLast() instanceof DebutLimite);
+		 texte.append("\n\n");
+		 
+		 texte.append(mainJoueur.toString());
+		 
+		return texte.toString();
+	}
 }

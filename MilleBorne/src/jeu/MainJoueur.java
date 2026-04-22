@@ -29,8 +29,8 @@ public class MainJoueur implements Iterable<Carte>{
 		for (Carte carte : this) {
 			chaine.append(carte.toString());
 		}
-		System.out.println("La main du joueur est :" + chaine);
-		return "";
+		chaine.append("La main du joueur est :" + chaine);
+		return chaine.toString();
 	}
 
 	@Override

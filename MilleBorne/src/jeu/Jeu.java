@@ -3,6 +3,7 @@ package jeu;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import cartes.Carte;
 import cartes.JeuDeCartes;
@@ -11,6 +12,7 @@ import utils.GestionCartes;
 public class Jeu {
 
     private Sabot sabot;
+    private Set<Joueur> joueurs;
 
     public Jeu() {
     	// a. Récupère le tableau de cartes de la classe JeuDeCartes et les mélange, après transformation en liste listeCartes (Collections.addAll)
@@ -27,5 +29,23 @@ public class Jeu {
 
     public Sabot getSabot() {
         return sabot;
+    }
+    
+    public void inscrire(Joueur... participants) {
+    	for (Joueur participant : participants) {
+			joueurs.add(participant);
+		}
+    }
+    
+    public void distribuerCartes() {
+    	for (Joueur joueur : joueurs) {
+			for (int i = 0; i < 6; i++) {
+				joueur.prendreCarte(sabot);
+			}
+		}
+    }
+    
+    public void jouerTour(Joueur joueur) {
+    	
     }
 }
